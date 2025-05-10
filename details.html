@@ -210,7 +210,7 @@
       </div>
       <div>
         <strong>Status:</strong>
-        <p>Arrived in Rhode Island</p>
+        <p>Customs Cleared</p>
       </div>
       <div>
         <strong>Current Location:</strong>
@@ -220,10 +220,10 @@
         <strong>Destination:</strong>
         <p>18 Verdun Street, Woonsocket, Rhode Island 02895</p>
       </div>
-    </div>
+    </div
 
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 60%"></div>
+      <div class="progress-fill" style="width: 80%"></div>
     </div>
 
     <div class="timeline" id="timeline"></div>
@@ -237,12 +237,12 @@
           model: 'RX350',
           year: 2022
         },
-        status: 'Arrived in Rhode Island',
+        status: 'Customs Cleared',
         currentLocation: 'Seattle Highway 15',
         destination: '18 Verdun Street, Woonsocket, Rhode Island 02895',
         updates: [
           { date: '--------', status: 'Vehicle Received', location: 'Rhode Island Export Lot' },
-          { date: '--------', status: 'Customs Cleared', location: 'Rhode Island Customs Office' },
+          { date: '2025-05-10', status: 'Customs Cleared', location: 'Rhode Island Customs Office' },
           { date: '2025-05-10', status: 'Arrived in Rhode Island', location: 'Rhode Island' },
           { date: '2025-05-08', status: 'In Transit', location: 'Seattle Highway 15' },
           { date: '2025-05-08', status: 'Out for Final Delivery', location: 'Out of Seattle' }
@@ -256,7 +256,7 @@
       let itemClass = '';
       let iconHTML = '<i class="fas fa-dot-circle"></i>';
 
-      if (update.status === 'Arrived in Rhode Island') {
+      if (update.status === 'Customs Cleared') {
         itemClass = 'highlight';
         iconHTML = '<i class="fas fa-map-marker-alt"></i>';
       } else if (index >= 0) {
