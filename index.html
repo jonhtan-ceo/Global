@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlobalShippers Logistics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f9f9f9; }
+
+    /* Top Scrolling Banner */
+    .top-banner {
+      background-color: #e74c3c;
+      color: white;
+      overflow: hidden;
+      white-space: nowrap;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 2000;
+      padding: 0.5rem 0;
+    }
+
+    .scrolling-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 15s linear infinite;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    .navbar {
+      background: #fff;
+      padding: 1rem 5%;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      top: 40px; /* Adjusted to allow space for the banner */
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo { font-size: 1.8rem; font-weight: 700; color: #2c3e50; text-decoration: none; }
+    .logo span { color: #e74c3c; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { text-decoration: none; color: #34495e; font-weight: 500; transition: color 0.3s; }
+    .nav-links a:hover { color: #e74c3c; }
+
+    .hero {
+      margin-top: 120px; /* Adjusted for navbar and banner */
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('https://cdn.pixabay.com/photo/2022/08/07/11/33/port-7370411_1280.jpg');
+      padding: 6rem 5%;
+      text-align: center;
+      color: white;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+
+    .tracking-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .tracking-input { display: flex; gap: 1rem; }
+
+    #trackingNumber {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .track-btn {
+      background: #e74c3c;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .track-btn:hover { background: #c0392b; }
+
+    .services { padding: 4rem 5%; background: #fff; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover { transform: translateY(-5px); }
+
+    .contact { padding: 4rem 5%; background: #f8f9fa; }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .form-group { margin-bottom: 1.5rem; }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .tracking-input { flex-direction: column; }
+      .track-btn { width: 100%; }
+    }
+
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #e74c3c;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #c0392b;
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 9999;
+      animation: fadeInOut 4s ease-in-out forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      10%, 90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Scrolling Banner -->
+  <div class="top-banner">
+    <div class="scrolling-text">🌍 GlobalShippers - Fast, Reliable, Worldwide Vehicle Shipping Services 🌎</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#home" class="logo">Global<span>Shippers</span></a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#home">Tracking</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <h1>Global Car Export & Logistics Solutions</h1>
+    <div class="tracking-container">
+      <div class="tracking-input">
+        <input type="text" id="trackingNumber" placeholder="Enter tracking number">
+        <button class="track-btn" onclick="trackShipment()">Track Vehicle</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="services">
+    <h2>Our Services</h2>
+    <div class="services-grid">
+      <div class="service-card"><h3>Vehicle Export</h3><p>Global car export logistics and customs handling</p></div>
+      <div class="service-card"><h3>Inland Transport</h3><p>Pickup, delivery and intermodal transport of vehicles</p></div>
+      <div class="service-card"><h3>Storage & Warehousing</h3><p>Vehicle lots and bonded warehouses</p></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <h2>Contact Us</h2>
+    <form class="contact-form" id="contactForm">
+      <div class="form-group"><input type="text" placeholder="Your Name" id="name"></div>
+      <div class="form-group"><input type="email" placeholder="Your Email" id="email"></div>
+      <div class="form-group"><textarea rows="5" placeholder="Your Message" id="message"></textarea></div>
+      <button class="track-btn" type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Notification -->
+  <div id="notification">✅ Message sent successfully!</div>
+
+  <script>
+    const botToken = '7342111571:AAFUmvZ-7d-Fjg0TOm3qmxuB5AHlB8FwpJw'; // Replace this
+    const chatId = '5502103678'; // Replace this
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !email || !message) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      const telegramMessage = `📩 New Message from Contact Form:\n\n👤 Name: ${name}\n📧 Email: ${email}\n📝 Message:\n${message}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: telegramMessage
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          showNotification();
+        } else {
+          alert("Failed to send message. Try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("There was an error sending your message.");
+      });
+    });
+
+    function showNotification() {
+      const notification = document.getElementById('notification');
+      notification.style.display = 'block';
+
+      setTimeout(() => {
+        notification.style.display = 'none';
+        document.getElementById('contactForm').reset();
+        document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+      }, 3000);
+    }
+
+    function trackShipment() {
+      const trackingId = document.getElementById('trackingNumber').value.trim().toUpperCase();
+      if (!trackingId) {
+        alert('Please enter a tracking number');
+        return;
+      }
+      if (trackingId !== 'GS-H57H4KDM11') {
+        alert('Invalid tracking number. Please put the correct tracking code.');
+        return;
+      }
+
+      const loadingDiv = document.createElement('div');
+      loadingDiv.id = 'loadingScreen';
+      loadingDiv.style.position = 'fixed';
+      loadingDiv.style.top = '0';
+      loadingDiv.style.left = '0';
+      loadingDiv.style.width = '100%';
+      loadingDiv.style.height = '100%';
+      loadingDiv.style.background = 'rgba(255, 255, 255, 0.9)';
+      loadingDiv.style.display = 'flex';
+      loadingDiv.style.flexDirection = 'column';
+      loadingDiv.style.justifyContent = 'center';
+      loadingDiv.style.alignItems = 'center';
+      loadingDiv.style.zIndex = '9999';
+      loadingDiv.innerHTML = `
+        <div class="loader"></div>
+        <div style="margin-top: 1rem; font-size: 1.2rem; color: #e74c3c;">Tracking in progress...</div>
+      `;
+      document.body.appendChild(loadingDiv);
+
+      setTimeout(() => {
+        window.location.href = 'details.html';
+      }, 3000);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+  <!-- Tawk.to Live Chat -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/68137d0928944c19102d4a8e/1iq620sme';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+</body>
+</html>
